@@ -1,29 +1,36 @@
-import tkinter as tk
+import sys
 import time
+from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout
+from PyQt5.QtCore import Qt
 
 def open_window():
-    # Creiamo una finestra
-    root = tk.Tk()
-    root.title("Catarsi")  # Titolo della finestra
+    app = QApplication(sys.argv)
 
-    # Impediamo la chiusura manuale della finestra usando il pulsante di chiusura
-    def on_closing():
-        root.destroy()  # Distrugge la finestra corrente
-        time.sleep(0.1)  # Ritardo minimo prima di riaprire
-        open_window()  # Riapre la finestra
+    while True:
+        # Creiamo una finestra
+        window = QWidget()
+        window.setWindowTitle('Catarsi')
+        
+        # Creiamo il layout e l'etichetta
+        layout = QVBoxLayout()
+        label = QLabel("IL MOMENTO È CATARTICO")
+        label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(label)
+        
+        # Impostiamo il layout nella finestra
+        window.setLayout(layout)
+        
+        # Mostriamo la finestra
+        window.show()
 
-    # Creiamo una etichetta con il messaggio
-    label = tk.Label(root, text="IL MOMENTO E' CATARTICO", font=("Helvetica", 24))
-    label.pack(padx=20, pady=20)
+        # Eseguiamo l'applicazione fino a quando la finestra viene chiusa
+        app.exec_()
+        
+        # Dopo la chiusura della finestra, riapriamo dopo un breve ritardo
+        time.sleep(0.1)
 
-    # Associazione del comportamento quando si chiude la finestra
-    root.protocol("WM_DELETE_WINDOW", on_closing)
-
-    # Iniziamo il loop della finestra
-    root.mainloop()
-
-# Esegui la prima finestra
-try:
-    open_window()
-except KeyboardInterrupt:
-    print("Esecuzione interrotta.")
+if __name__ == '__main__':
+    try:
+        open_window()
+    except KeyboardInterrupt:
+        print("Esecuzione interrotta.")
